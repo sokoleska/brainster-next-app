@@ -40,8 +40,9 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - Get all Surveys -> Done
 - Get a Survey -> Done
 - Create Survey -> Done
-- Update Survey
-- Create Survey Question
+- Update Survey -> Done
+- Delete Survey -> Done
+- Create Survey Question ->
 - Update Survey Question
 - Delete Survey Question
 
