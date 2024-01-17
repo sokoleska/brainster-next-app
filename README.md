@@ -42,8 +42,8 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - Create Survey -> Done
 - Update Survey -> Done
 - Delete Survey -> Done
-- Create Survey Question -> ongoing
+- Create Survey Question -> Done
 - Update Survey Question
-- Delete Survey Question
+- Delete Survey Question -> ongoing
 
 - Participate in a Survey

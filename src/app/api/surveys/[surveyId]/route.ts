@@ -16,6 +16,9 @@ export const GET = routeHandler(async (request, context) => {
      const survey = await prisma.survey.findUniqueOrThrow({
           where: {
                id: surveyId,
+          },
+          include: {
+               questions: true,
           }
      });
      return survey;
