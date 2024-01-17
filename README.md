@@ -42,7 +42,7 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 - Create Survey -> Done
 - Update Survey -> Done
 - Delete Survey -> Done
-- Create Survey Question ->
+- Create Survey Question -> ongoing
 - Update Survey Question
 - Delete Survey Question
 
