@@ -24,3 +24,35 @@ export const DELETE = routeHandler(async (request, context) => {
 
      return response;
 });
+
+// update a question
+export const PATCH = routeHandler(async (request, context) => {
+     const { surveyId, questionId } = context.params;
+     const body = await request.json();
+     const validation = await QuestionSchema.safeParseAsync(body);
+
+     if (!validation.success) {
+          throw validation.error;
+     };
+
+     const { data } = validation;
+     const response = await prisma.survey.update({
+          where: {
+               id: surveyId,
+          },
+          data: {
+               questions: {
+                    update: {
+                         where: {
+                              id: questionId,
+                         },
+                         data,
+                    }
+               }
+          },
+          include: {
+               questions: true,
+          },
+     });
+     return response;
+});
