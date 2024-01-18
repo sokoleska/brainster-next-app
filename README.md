@@ -37,13 +37,17 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 ## Endpoints
 
-- Get all Surveys -> Done
-- Get a Survey -> Done
-- Create Survey -> Done
-- Update Survey -> Done
-- Delete Survey -> Done
-- Create Survey Question -> Done
-- Delete Survey Question -> Done
-- Update Survey Question -> Done
+- Get all Surveys
+- Get a Survey
+- Create Survey
+- Update Survey
+- Create Survey Question
+- Update Survey Question
+- Delete Survey Question
 
-- Answer a question
+- Participate in a Survey
+
+## Helpful links
+
+- https://nerdcave.com/tailwind-cheat-sheet
+- https://tailwindcomponents.com/cheatsheet/

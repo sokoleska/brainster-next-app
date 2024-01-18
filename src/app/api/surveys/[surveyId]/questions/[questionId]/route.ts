@@ -1,58 +1,80 @@
 import routeHandler from "@/lib/routeHandler";
 import prisma from "@/lib/prisma";
-import QuestionSchema from "@/schemas/Question";
+import { isUndefined } from "lodash";
 
-// delete a question
-// TODO: update positions too
-export const DELETE = routeHandler(async (request, context) => {
-     const { surveyId, questionId } = context.params;
-     const response = await prisma.survey.update({
+export const PATCH = routeHandler(async (request, context) => {
+  const { surveyId, questionId } = context.params;
+  const data = await request.json();
+
+  const question = await prisma.question.findFirstOrThrow({
+    where: {
+      id: questionId,
+      surveyId,
+    },
+  });
+
+  console.log(data.position, question.position);
+
+  if (!isUndefined(data.position) && question.position !== data.position) {
+    const [positionFrom, positionTo] = [
+      question.position,
+      data.position,
+    ].sort();
+
+    const questionsToReposition = await prisma.question.findMany({
+      where: {
+        id: questionId,
+        surveyId,
+        position: {
+          in: Array.from(
+            { length: positionTo - positionFrom + 1 },
+            (_, index) => positionFrom + index
+          ),
+        },
+      },
+    });
+
+    console.log({
+      questionsToReposition,
+    });
+  }
+
+  const response = await prisma.survey.update({
+    where: {
+      id: surveyId,
+    },
+    data: {
+      questions: {
+        update: {
           where: {
-               id: surveyId,
+            id: questionId,
           },
-          data: {
-               questions: {
-                    delete: {
-                         id: questionId,
-                    },
-               },
-          },
-          include: {
-               questions: true,
-          },
-     });
+          data,
+        },
+      },
+    },
+  });
 
-     return response;
+  return response;
 });
 
-// update a question
-export const PATCH = routeHandler(async (request, context) => {
-     const { surveyId, questionId } = context.params;
-     const body = await request.json();
-     const validation = await QuestionSchema.safeParseAsync(body);
+export const DELETE = routeHandler(async (_, context) => {
+  const { surveyId, questionId } = context.params;
+  const response = await prisma.survey.update({
+    where: {
+      id: surveyId,
+    },
+    data: {
+      questions: {
+        delete: {
+          id: questionId,
+        },
+      },
+    },
+    include: {
+      questions: true,
+    },
+  });
 
-     if (!validation.success) {
-          throw validation.error;
-     };
-
-     const { data } = validation;
-     const response = await prisma.survey.update({
-          where: {
-               id: surveyId,
-          },
-          data: {
-               questions: {
-                    update: {
-                         where: {
-                              id: questionId,
-                         },
-                         data,
-                    }
-               }
-          },
-          include: {
-               questions: true,
-          },
-     });
-     return response;
+  return response;
 });
